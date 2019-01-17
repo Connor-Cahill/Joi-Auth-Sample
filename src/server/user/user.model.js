@@ -25,8 +25,8 @@ UserSchema.methods.generateHash = function generatesHashForPassword(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
-UserSchema.methods.comparePassword = function comparesPasswordAgainstHash(password) {
-  return bcrypt.compareSync(password, this.password);
+UserSchema.methods.comparePassword = function comparesPasswordAgainstHash(password, done) {
+  bcrypt.compareSync(password, this.password, (err, isMatch) => done(err, isMatch));
 };
 
 module.exports = mongoose.model('User', UserSchema);
