@@ -14,16 +14,12 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.pre('save', function userPreSave(next) {
-  if (this.isModified) {
-    this.updatedAt = new Date();
+  if (!this.isModified('password')) {
     return next();
   }
+  this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8), null);
   return next();
 });
-
-UserSchema.methods.generateHash = function generatesHashForPassword(password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-};
 
 UserSchema.methods.comparePassword = function comparesPasswordAgainstHash(password, done) {
   bcrypt.compareSync(password, this.password, (err, isMatch) => done(err, isMatch));

@@ -5,7 +5,6 @@ const Joi = require('joi');
 
 function signUp(userData) {
   const user = new User(userData);
-  user.password = user.generateHash(user.password);
   return user.save();
 }
 
