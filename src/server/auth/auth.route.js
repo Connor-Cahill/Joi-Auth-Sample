@@ -5,6 +5,10 @@ const router = express.Router(); // eslint-disable-line new-cap
 //  POST: Sign Up, creates a user and saves in db, also issues Token
 // eslint-disable-next-line
 router.post('/sign-up', (req, res) => {
+  const result = controller.validateUserSchema(req.body);
+  if (result.error) {
+    throw result.error.message;
+  }
   controller.signUp(req.body).then(user => controller.issueCookie(res, user))
   .catch(err => res.send(err));
 });

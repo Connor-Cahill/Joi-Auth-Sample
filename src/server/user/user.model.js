@@ -13,6 +13,9 @@ const UserSchema = new mongoose.Schema({
   birthday: { type: Date, required: true },
 });
 
+
+  // Joi.validate(userData, schema);
+//  NOTE: app crashes if Schema is incorrect. How can we handle this better?
 UserSchema.pre('save', function userPreSave(next) {
   if (!this.isModified('password')) {
     return next();
