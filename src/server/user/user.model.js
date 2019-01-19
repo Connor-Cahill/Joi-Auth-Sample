@@ -11,6 +11,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   phoneNumber: { type: String, required: true },
   birthday: { type: Date, required: true },
+  admin: { type: Boolean, default: false },
 });
 
 

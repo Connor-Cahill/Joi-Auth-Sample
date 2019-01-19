@@ -39,6 +39,7 @@ function validateUserSchema(userData) {
     password: Joi.string().min(6).required(),
     phoneNumber: Joi.string().min(10).max(11),
     birthday: Joi.any(),
+    admin: Joi.boolean(),
   });
   return Joi.validate(userData, schema);
 }
