@@ -39,6 +39,7 @@
   "dependencies": {
     "bcrypt-nodejs": "false0.0.3",
     "body-parser": "1.18.2",
+    "cookie-parser": "false1.4.3",
     "cors": "2.8.4",
     "docsify-cli": "^4.3.0",
     "dotenv": "^4.0.0",
