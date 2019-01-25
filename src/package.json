@@ -12,7 +12,6 @@
   },
   "scripts": {
     "start": "node index.js",
-    "start:debug": "cross-env DEBUG=auth-api-starterpack:* yarn start",
     "lint": "esw *.js server config --color",
     "lint:watch": "yarn lint -- --watch",
     "precommit": "yarn lint && yarn test",
@@ -30,7 +29,6 @@
     "mongoose",
     "es6",
     "mocha",
-    "istanbul",
     "REST",
     "API",
     "boilerplate",
@@ -53,6 +51,7 @@
   },
   "devDependencies": {
     "chai": "4.1.2",
+    "chai-http": "false4.2.1",
     "cross-env": "5.1.4",
     "eslint": "3.16.1",
     "eslint-config-airbnb-base": "7.1.0",
@@ -61,10 +60,5 @@
     "mocha": "3.5.0",
     "validate-commit-msg": "^2.14.0"
   },
-  "license": "MIT",
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  }
+  "license": "MIT"
 }

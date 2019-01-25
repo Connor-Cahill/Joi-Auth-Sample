@@ -32,11 +32,11 @@ function signOut(res) {
 function validateUserSchema(userData) {
   //  Joi Schema for User
   const schema = Joi.object().keys({
-    firstName: Joi.string().required(),
-    lastName: Joi.string().required(),
+    firstName: Joi.string().regex(/^[a-z ,.'-]+$/i).required(),
+    lastName: Joi.string().regex(/^[a-z ,.'-]+$/i).required(),
     email: Joi.string().email().required(),
     username: Joi.string().alphanum().required(),
-    password: Joi.string().min(6).required(),
+    password: Joi.string().min(6).max(35).required(),
     phoneNumber: Joi.string().min(10).max(11),
     birthday: Joi.any(),
     admin: Joi.boolean(),
