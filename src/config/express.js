@@ -18,6 +18,4 @@ app.use(cors());
 // Mount all routes on /api path.
 app.use('/api', routes);
 
-// #TODO: Additional non-API routes go here.
-
 module.exports = app;

@@ -21,21 +21,6 @@
     "test:check-coverage": "yarn test:coverage && istanbul check-coverage",
     "report-coverage": "coveralls < ./coverage/lcov.info"
   },
-  "keywords": [
-    "express",
-    "node",
-    "node.js",
-    "mongodb",
-    "mongoose",
-    "es6",
-    "mocha",
-    "REST",
-    "API",
-    "boilerplate",
-    "makeschool",
-    "authenticated",
-    "MVC"
-  ],
   "dependencies": {
     "bcrypt-nodejs": "false0.0.3",
     "body-parser": "1.18.2",
