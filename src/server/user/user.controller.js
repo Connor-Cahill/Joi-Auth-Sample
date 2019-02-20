@@ -1,40 +1,29 @@
 const User = require('./user.model');
 
-//  Sends all users as list of JSON objects
-function sendAllUsers(res) {
-  User.find({})
-  .then(users => res.status(200).send(users))
-  .catch(err => res.status(400).send(err));
+
+//  Sends all user objects
+async function Index(req, res) {
+  res.json(await User.find());
 }
 //  Sends single user as JSON object given userId
-function sendSingleUser(userId, res) {
-  User.findById(userId)
-  .then(user => res.status(200).send(user))
-  .catch(err => res.status(400).send(err));
+async function Get(req, res) {
+  res.json(await User.findById(req.params.id));
 }
 //  removes a user from DB given userId
-function deleteUser(userId, res) {
-  User.findOneAndRemove({ _id: userId })
-  .then(() => res.status(200).send('User was deleted!'))
-  .catch(err => res.status(400).send(err));
+async function Delete(req, res) {
+  await User.findByIdAndRemove(req.params.id);
+  return res.status(200).send('User successfully deleted');
 }
 
 //  Updates a users information given userId and new data
-//  NOTE: data passed should be equal to req.body and you can call the validate schema method
-function updateUserInfo(userId, data, res) {
-  User.findById(userId)
-  .then((user) => {
-    user.set(data);
-    return user.save();
-  })
-  .then(() => res.status(200).send('information was updated'))
-  .catch(err => res.send(err));
+async function Update(req, res) {
+  await User.findByIdAndUpdate(req.params.id, req.body);
+  return res.status(200).send('User info updatted.');
 }
 
 module.exports = {
-  sendAllUsers,
-  sendSingleUser,
-  deleteUser,
-  updateUserInfo,
-
+  Index,
+  Get,
+  Delete,
+  Update,
 };
