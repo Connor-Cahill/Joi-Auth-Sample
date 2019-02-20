@@ -3,25 +3,26 @@ const config = require('../../config/config');
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 
-function signUp(userData) {
-  const user = new User(userData);
-  return user.save();
+//  Creates a new user and issues jwt token
+async function SignUp(req, res) {
+  const user = new User(req.body);
+  await user.save();
+  return issueCookie(res, user);
 }
 
-function signIn(email, password, res) {
-  return User.findOne({ email }, 'email password').then((user) => {
-    if (!user) {
-      return res.status(401).send('No account associated with this email.');
+//  signs in user, if exists, and issues jwt token
+async function SignIn(req, res) {
+  const user = await User.findOne({ email: req.body.email }, 'email password');
+  if (!user) {
+    return res.status(401).send('No account associated with this email.');
+  }
+  user.comparePassword(req.password, (err, isMatch) => {
+    if (!isMatch) {
+      return res.status(401).send('Email or Password incorrect.');
     }
-    user.comparePassword(password, (err, isMatch) => {
-      if (!isMatch) {
-        return res.status(401).send('Email or password incorrect.');
-      }
-      return true;
-    });
-    return issueCookie(res, user);
-  })
-  .catch(err => res.send(err));
+    return true;
+  });
+  return issueCookie(res, user);
 }
 
 function signOut(res) {
@@ -44,7 +45,7 @@ function validateUserSchema(userData) {
   return Joi.validate(userData, schema);
 }
 
-
+//  issues jwt token
 function issueCookie(res, user) {
   const token = jwt.sign({ _id: user._id }, config.jwtSecret, { expiresIn: '60 days' });
   res.cookie(config.cookie, token, { maxAge: 60 * 60 * 24 * 1000, httpOnly: true });
@@ -52,8 +53,8 @@ function issueCookie(res, user) {
 }
 
 module.exports = {
-  signUp,
-  signIn,
+  SignIn,
+  SignUp,
   signOut,
   issueCookie,
   validateUserSchema,

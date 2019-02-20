@@ -1,5 +1,6 @@
 const express = require('express');
 const controller = require('./auth.controller');
+const wrap = require('../../middleware/asyncHandler');
 
 const router = express.Router(); // eslint-disable-line new-cap
 //  POST: Sign Up, creates a user and saves in db, also issues Token
@@ -9,14 +10,11 @@ router.post('/sign-up', (req, res) => {
   if (result.error) {
     throw result.error.message;
   }
-  controller.signUp(req.body).then(user => controller.issueCookie(res, user))
-  .catch(err => res.send(err));
+  return wrap(controller.signUp(req, res));
 });
 
 //  POST: Sign in, signs in user and issues token
-router.post('/sign-in', (req, res) => {
-  controller.signIn(req.body.email, req.body.password, res);
-});
+router.post('/sign-in', wrap(controller.SignIn));
 
 //  GET: signs a user out. REMOVES Token
 router.get('/sign-out', (req, res) => {
